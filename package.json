@@ -1,0 +1,77 @@
+{
+  "name": "@fenix.finance/types",
+  "version": "1.0.2",
+  "description": "Types for fenix projects",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "install": "node -e \"if (!require('fs').existsSync('./dist')){process.exit(1)}\" || npm run build",
+    "watch": "tsc -w -p ./tsconfig.json",
+    "build": "node tools/cleanup types && tsc -p ./tsconfig.json",
+    "clean": "node tools/cleanup",
+    "package": "npm run build && npm pack",
+    "test": "jest --no-cache --runInBand",
+    "test:cov": "jest --coverage --no-cache --runInBand",
+    "addscope": "node tools/packagejson name @fenixfinance/types",
+    "pre-commit": "lint-staged",
+    "pre-push": "yarn build && yarn test",
+    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
+    "prettier:fix": "prettier --write ./src/.",
+    "use:npmReadme": "mv 'README.md' 'git.README.md' && mv 'npm.README.md' 'README.md'",
+    "use:gitReadme": "mv 'README.md' 'npm.README.md' && mv 'git.README.md' 'README.md'",
+    "prepublishOnly": "run-s build use:npmReadme && pinst --enable",
+    "postpublish": "npm run use:gitReadme && pinst --enable"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn run lint:fix",
+      "yarn run prettier:fix"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Fenix Finance <support@fenixfinance.net>",
+  "license": "MIT",
+  "homepage": "https://github.com/fenixfinance/types",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/fenixfinance/types.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fenixfinance/types"
+  },
+  "dependencies": {
+    "ethers": "^5.4.7"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@types/jest": "^27.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.2",
+    "jest": "^27.2.0",
+    "lint-staged": ">=10",
+    "npm-run-all": "^4.1.5",
+    "pinst": "^2.1.6",
+    "prettier": "^2.4.0",
+    "ts-jest": "^27.0.5",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.4.3",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.8.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "fenix"
+  ]
+}
